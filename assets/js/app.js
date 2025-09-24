@@ -67,10 +67,20 @@ function init3D() {
 
   // Wireframe-сфера навколо (неоновий вінок)
   const wf = new THREE.LineSegments(
-    new THREE.WireframeGeometry(new THREE.SphereGeometry(3.2, 18, 12)),
-    new THREE.LineBasicMaterial({ color: 0xc084fc, transparent: true, opacity: 0.35 })
-  );
-  group.add(wf);
+  new THREE.WireframeGeometry(new THREE.SphereGeometry(3.2, 36, 24)),
+  new THREE.LineBasicMaterial({ color: 0xc084fc, transparent: true, opacity: 0.2 })
+);
+group.add(wf);
+
+// робимо обертання сфери плавним у animate()
+function animate() {
+  const t = clock.getElapsedTime();
+  group.rotation.y += 0.0015;
+  group.rotation.x += 0.0008;
+  wf.rotation.y += 0.0006; // плавне автообертання сфери
+  renderer.render(scene, camera);
+  requestAnimationFrame(animate);
+}
 
   // Маленькі «пікселі» — частинки (маркетингові точки дотику)
   const ptsGeo = new THREE.BufferGeometry();
