@@ -1,79 +1,69 @@
-document.getElementById('year').textContent = new Date().getFullYear();
+// Footer year
+document.getElementById('year').textContent=new Date().getFullYear();
 
-// ===== Formspree
-const form=document.getElementById('leadForm');
-if(form){
-  form.addEventListener('submit',async e=>{
-    e.preventDefault();
-    const res=await fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}});
-    if(res.ok){form.reset();document.getElementById('thanks').style.display='block';}
-    else{alert('Сталася помилка. Спробуйте ще раз.');}
-  });
-}
-
-// ===== Music toggle
+// Music toggle
 const music=document.getElementById('bg-music');
 const btn=document.getElementById('music-toggle');
-if(btn&&music){
-  btn.addEventListener('click',()=>{
-    if(music.paused){music.play();btn.textContent='🔊';}
-    else{music.pause();btn.textContent='🔈';}
-  });
-}
+btn.addEventListener('click',()=>{
+  if(music.paused){music.play();btn.textContent='🔊';}
+  else{music.pause();btn.textContent='🔈';}
+});
 
-// ===== Three.js scene
+// Three.js
 const canvas=document.getElementById('webgl');
-let renderer,scene,camera,group,wf,clock,width,height;
+let renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+renderer.setSize(window.innerWidth,window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
 
-function init3D(){
-  width=window.innerWidth;height=window.innerHeight;
-  renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
-  renderer.setSize(width,height);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+let scene=new THREE.Scene();
+let camera=new THREE.PerspectiveCamera(55,window.innerWidth/window.innerHeight,0.1,100);
+camera.position.set(0,0,7);
+scene.add(camera);
 
-  scene=new THREE.Scene();
-  camera=new THREE.PerspectiveCamera(55,width/height,0.1,100);
-  camera.position.set(0,0,6);
-  scene.add(camera);
+// Lights
+scene.add(new THREE.AmbientLight(0xffffff,0.5));
+let light=new THREE.PointLight(0x60a5fa,1.2);light.position.set(3,3,5);scene.add(light);
 
-  const amb=new THREE.AmbientLight(0xffffff,0.5);
-  const key=new THREE.PointLight(0x60a5fa,1.2,20);key.position.set(4,3,5);
-  const fill=new THREE.PointLight(0x9ae6b4,0.8,20);fill.position.set(-3,-2,4);
-  scene.add(amb,key,fill);
+// Group
+let group=new THREE.Group();scene.add(group);
 
-  group=new THREE.Group();scene.add(group);
+// Sphere
+let wf=new THREE.LineSegments(
+  new THREE.WireframeGeometry(new THREE.SphereGeometry(3.5,64,64)),
+  new THREE.LineBasicMaterial({color:0x60a5fa,transparent:true,opacity:0.2})
+);
+group.add(wf);
 
-  const box=new THREE.Mesh(
-    new THREE.BoxGeometry(2.1,2.1,2.1),
-    new THREE.MeshStandardMaterial({color:0x0b1222,metalness:0.4,roughness:0.35,
-      emissive:0x0d1b2a,emissiveIntensity:0.25})
-  );
-  group.add(box);
-
-  wf=new THREE.LineSegments(
-    new THREE.WireframeGeometry(new THREE.SphereGeometry(3.2,64,48)),
-    new THREE.LineBasicMaterial({color:0xc084fc,transparent:true,opacity:0.15})
-  );
-  group.add(wf);
-
-  clock=new THREE.Clock();
-  animate();
-  window.addEventListener('resize',onResize);
+// Cube with text
+function createTextTexture(txt){
+  let cvs=document.createElement('canvas');cvs.width=256;cvs.height=256;
+  let ctx=cvs.getContext('2d');
+  ctx.fillStyle='#0b0b0b';ctx.fillRect(0,0,256,256);
+  ctx.fillStyle='#fff';ctx.font='bold 42px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(txt,128,128);
+  return new THREE.CanvasTexture(cvs);
 }
+let cubeMats=[
+  new THREE.MeshStandardMaterial({map:createTextTexture("Ads")}),
+  new THREE.MeshStandardMaterial({map:createTextTexture("Content")}),
+  new THREE.MeshStandardMaterial({map:createTextTexture("SmartBots")}),
+  new THREE.MeshStandardMaterial({map:createTextTexture("Analytics")}),
+  new THREE.MeshStandardMaterial({map:createTextTexture("A/B")}),
+  new THREE.MeshStandardMaterial({map:createTextTexture("ROI")})
+];
+let cube=new THREE.Mesh(new THREE.BoxGeometry(2,2,2),cubeMats);
+group.add(cube);
 
+// Animate
 function animate(){
-  const t=clock.getElapsedTime();
-  group.rotation.y+=0.0015;
-  group.rotation.x+=0.0008;
-  wf.rotation.y+=0.0006; // плавне автообертання сфери
-  renderer.render(scene,camera);
   requestAnimationFrame(animate);
+  group.rotation.y+=0.003;group.rotation.x+=0.001;
+  renderer.render(scene,camera);
 }
+animate();
 
-function onResize(){
-  width=window.innerWidth;height=window.innerHeight;
-  camera.aspect=width/height;camera.updateProjectionMatrix();
-  renderer.setSize(width,height);
-}
-
-if(window.WebGLRenderingContext){init3D();}
+window.addEventListener('resize',()=>{
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  camera.aspect=window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+});
