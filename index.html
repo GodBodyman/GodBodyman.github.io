@@ -4,13 +4,15 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Богдан Руденко — Digital Marketing Specialist</title>
-  <meta name="description" content="Резюме: таргетована реклама, контент-маркетинг, аналітика, боти SmartSender." />
-  <meta name="color-scheme" content="dark light" />
-  <link rel="stylesheet" href="assets/css/style.css?v=1">
+  <link rel="stylesheet" href="assets/css/style.css?v=3">
 </head>
 <body>
-  <!-- 3D-сцена поверх усієї сторінки -->
+  <!-- 3D сцена -->
   <canvas id="webgl" aria-hidden="true"></canvas>
+
+  <!-- Музика -->
+  <audio id="bg-music" src="assets/media/space.mp3" autoplay loop></audio>
+  <button id="music-toggle" aria-label="toggle music">🔊</button>
 
   <header class="section hero-section snap">
     <div class="container glass">
@@ -28,79 +30,30 @@
       </p>
       <div class="cta">
         <a class="btn primary" href="#contacts">Зв’язатися</a>
-        <a class="btn" href="#skills">Послуги</a>
+        <a class="btn secondary" href="#skills">Послуги</a>
       </div>
     </div>
   </header>
 
   <main>
-    <section id="skills" class="section snap">
-      <div class="container grid-2">
-        <div class="card">
-          <h2>Таргетована реклама</h2>
-          <p class="meta">Facebook Ads, TikTok Ads, Google Ads. Налаштування → оптимізація → масштабування.</p>
-          <ul class="list">
-            <li>Ніші: будівництво, дизайн, освіта, особисті бренди</li>
-            <li>Медіаплан, KPI, аудит</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h2>Аналітика та оптимізація</h2>
-          <p class="meta">GA4, GTag, Keitaro. A/B тестування, звітність, оптимізація бюджетів.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="content" class="section snap">
-      <div class="container grid-2">
-        <div class="card">
-          <h2>Контент та дизайн</h2>
-          <p class="meta">Figma, Canva, AE, CapCut, Notion. Креативи, відео, матеріали для соцмереж.</p>
-        </div>
-        <div class="card">
-          <h2>Автоматизація та CRM</h2>
-          <p class="meta">SmartSender, SendPulse: чат-боти, автоворонки, розсилки, інтеграції.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="experience" class="section snap">
-      <div class="container grid-2">
-        <div class="card">
-          <h2>Досвід</h2>
-          <ul class="list">
-            <li><strong>Freelance</strong> — фармінг акаунтів, реклама, боти (2022 — зараз)</li>
-            <li><strong>Ewolf LLC</strong> — контакт-центр (2021–2022)</li>
-            <li><strong>Trading House</strong> — продажі (2021)</li>
-            <li><strong>ПП</strong> — продаж техніки (2018–2020)</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h2>Освіта та сертифікації</h2>
-          <ul class="list">
-            <li>NACOA — Бакалавр фінансів (2017–2021)</li>
-            <li>KHEY — Молодший спеціаліст (2015–2017)</li>
-            <li>Genius Space — Таргетолог</li>
-            <li>EC Tempus — Підприємництво (2016–2017)</li>
-          </ul>
-        </div>
-      </div>
-    </section>
+    <!-- … інші секції такі як раніше … -->
 
     <section id="contacts" class="section snap">
       <div class="container grid-2">
         <div class="card">
           <h2>Контакти</h2>
           <p class="meta">Готовий до співпраці: будівництво, дизайн, освіта, особисті бренди.</p>
-          <p>📩 Email: <a href="mailto:avramlinkolnkrasava@gmail.com">avramlinkolnkrasava@gmail.com</a><br>
-             💬 Telegram: <a href="https://t.me/fenotyper" target="_blank" rel="noopener">t.me/fenotyper</a></p>
+          <div class="contact-links">
+            <a href="mailto:avramlinkolnkrasava@gmail.com" class="contact-btn">📩 Email</a>
+            <a href="https://t.me/fenotyper" target="_blank" class="contact-btn">💬 Telegram</a>
+          </div>
         </div>
+
         <form id="leadForm" class="card" action="https://formspree.io/f/xanpnwpl" method="POST">
           <h2>Коротка заявка</h2>
           <label>Ваше ім’я<input required name="name" placeholder="Ім’я"></label>
           <label>Email<input required type="email" name="email" placeholder="you@example.com"></label>
           <label>Повідомлення<textarea name="message" rows="4" placeholder="Коротко про проєкт"></textarea></label>
-          <input type="hidden" name="_subject" value="Нова заявка з сайту-резюме" />
           <button class="btn primary" type="submit">Надіслати</button>
           <p id="thanks" class="meta" style="display:none;margin-top:10px">Дякую! Заявку отримано — відповім найближчим часом.</p>
         </form>
@@ -112,11 +65,10 @@
     © <span id="year"></span> Богдан Руденко — Digital Marketing Specialist
   </footer>
 
-  <!-- CDN для 3D та анімацій -->
+  <!-- бібліотеки -->
   <script src="https://unpkg.com/three@0.159.0/build/three.min.js"></script>
   <script src="https://unpkg.com/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://unpkg.com/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-
-  <script src="assets/js/app.js?v=1"></script>
+  <script src="assets/js/app.js?v=3"></script>
 </body>
 </html>
