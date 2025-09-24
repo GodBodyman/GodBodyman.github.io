@@ -18,7 +18,7 @@ tiltEls.forEach(card=>{
   card.addEventListener('touchend',reset);
 });
 
-// AJAX submit to Formspree (success message without reload)
+// AJAX submit to Formspree
 const form = document.getElementById('leadForm');
 if(form){
   form.addEventListener('submit',async(e)=>{
@@ -34,3 +34,23 @@ if(form){
     }
   });
 }
+
+// Parallax background & cube on scroll
+window.addEventListener('scroll',()=>{
+  const y=window.scrollY;
+  document.body.style.setProperty('--scrollY', y*0.2 + 'px');
+
+  // Cube tilt
+  const cube=document.querySelector('.cube');
+  if(cube){
+    cube.style.transform=`rotateX(${y*0.1}deg) rotateY(${y*0.15}deg)`;
+  }
+
+  // Section reveal
+  document.querySelectorAll('section').forEach(sec=>{
+    const rect=sec.getBoundingClientRect();
+    if(rect.top<window.innerHeight-100){
+      sec.classList.add('visible');
+    }
+  });
+});
