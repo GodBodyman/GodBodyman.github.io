@@ -33,8 +33,10 @@ body.scrolled::before{ background-position: 50% calc(50% + var(--scrollY,0px)); 
 /* секції: фулскрін + скрол-снеп як у Cuban’s Edge */
 .section{min-height:100svh; display:grid; place-items:center; padding:80px 0}
 .snap{scroll-snap-align:start}
-html{scroll-snap-type:y proximity}
-
+html{
+  scroll-snap-type:y mandatory;
+  scroll-behavior:smooth;
+}
 /* контейнери/скляні панелі */
 .container{width:min(1100px,92vw); margin:0 auto}
 .glass{
